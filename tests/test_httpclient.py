@@ -1,0 +1,60 @@
+import unittest
+import json
+import time
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from tcabci_read_client import HttpClient
+
+
+class DummyHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/v1/blocks?limit=1&offset=0':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            response = {
+                "data": [
+                    {
+                        "id": 159724,
+                        "inserted_at": "2023-09-29T14:56:34.592463Z",
+                        "height": 151533,
+                        "txs": 1,
+                        "hash": "36EE7A43201D0B20A60A730A352B55CD6BC73B815872F20DC8D881497439D9B5",  # noqa
+                        "transactions": None
+                    }
+                ],
+                "total_count": 151514,
+                "error": False,
+                "errors": None,
+                "detail": "OK"
+            }
+            self.wfile.write(json.dumps(response).encode('utf-8'))
+        elif self.path == 'v1/tx_search/p':
+            pass
+        else:
+            self.send_response(404)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(b'Not found!')
+
+
+class TestWebSocketClient(unittest.TestCase):
+    HOST = 'localhost'
+    PORT = 9000
+
+    def start_dummy_http_server(self):
+        server = HTTPServer((self.HOST, self.PORT), DummyHandler)
+        t = threading.Thread(target=server.serve_forever, daemon=True)
+        t.start()
+        print('dummy http server is running.')
+
+    def test_client(self):
+        self.start_dummy_http_server()
+        time.sleep(1)
+        client = HttpClient(f"http://{self.HOST}:{self.PORT}")
+        rsp = client.get_last_block()
+        self.assertEqual(rsp['total_count'], 151514)
+
+
+if __name__ == '__main__':
+    unittest.main()
