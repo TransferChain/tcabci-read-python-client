@@ -7,7 +7,7 @@ It is used to listen to the read nodes of TransferChain and send requests to the
 This client requires python>=3.8
 
 ```sh
-pip install git+https://github.com/ayhanozemre/tcabci-read-python-client@main
+pip install git+https://github.com/TransferChain/tcabci-read-python-client@main
 ```
 
 ## Constants
@@ -47,6 +47,7 @@ client.tx_search params;
 limit, order_field,offset,order_by,hashes,typ,sender_addrs,recipient_addrs
 '''
 client.tx_search(sender_addrs='test_address', recipient_addrs='test_address2')
+client.broadcast(tx_id=1, version=1, fee=0, data="", sign="", tx_type="", sender_address="from", recipient_address="to")
 
 ```
 

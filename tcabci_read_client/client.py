@@ -53,6 +53,31 @@ class HttpClient:
         return {"blocks": response["data"],
                 "total_count": response["total_count"]}
 
+    def broadcast(self, tx_id, version, fee, data, sign, tx_type,
+                  sender_address, recipient_address):
+        transaction = {
+            "fee": fee,
+            "id": tx_id,
+            "version": version,
+            "data": data,
+            "sign": sign,
+            "type": tx_type,
+            "sender_addr": sender_address,
+            "recipient_addr": recipient_address
+        }
+        payload = json.dumps(transaction)
+        url = urljoin(self.http_url, 'v1/broadcast')
+        req = requests.post(url, data=payload, headers=self.http_headers)
+        if not req.ok:
+            logger.error("invalid status code")
+            return None
+        try:
+            response = req.json()
+        except Exception as e:
+            logger.error(e)
+            return None
+        return response
+
     def tx_search(self, *args, **kwargs):
         pre_payload = {
             "recipient_addrs": kwargs.get('recipientAddrs'),
