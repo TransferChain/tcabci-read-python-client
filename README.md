@@ -5,9 +5,11 @@ It is used to listen to the read nodes of TransferChain and send requests to the
 ## Installation
 
 This client requires python>=3.8
-
 ```sh
-pip install git+https://github.com/TransferChain/tcabci-read-python-client@master
+pip install tcabci-read-client
+```
+```sh
+pip install git+https://github.com/TransferChain/tcabci-read-python-client@main
 ```
 
 ## Constants
