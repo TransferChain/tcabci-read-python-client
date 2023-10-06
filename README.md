@@ -7,7 +7,7 @@ It is used to listen to the read nodes of TransferChain and send requests to the
 This client requires python>=3.8
 
 ```sh
-pip install git+https://github.com/TransferChain/tcabci-read-python-client@main
+pip install git+https://github.com/TransferChain/tcabci-read-python-client@master
 ```
 
 ## Constants
