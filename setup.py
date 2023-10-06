@@ -10,7 +10,7 @@ with open("requirements.txt") as f:
 setup(
     name="tcabci_read_client",
     version="v0.1.3",
-    author="ayhanozemre",
+    author="transferchain",
     description="transferchain abci read client",
     long_description=page_description,
     long_description_content_type="text/markdown",
