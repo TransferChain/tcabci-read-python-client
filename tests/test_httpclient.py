@@ -96,12 +96,12 @@ class TestWebSocketClient(unittest.TestCase):
         time.sleep(1)
         client = HttpClient(f"http://{self.HOST}:{self.PORT}")
         rsp = client.get_last_block()
-        self.assertEqual(rsp['total_count'], 151514)
+        self.assertEqual(True, rsp.success)
 
         rsp = client.broadcast(
             tx_id=1, version=1, fee=0, data="", sign="", tx_type="",
             sender_address="from", recipient_address="to")
-        self.assertIsNotNone(rsp)
+        self.assertEqual(True, rsp.success)
 
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 import json
 import logging
 import threading
+from collections import namedtuple
 from urllib.parse import urljoin
 from enum import Enum
 import requests
@@ -28,6 +29,10 @@ class MessageType(Enum):
     UNSUBSCRIBE = 'unsubscribe'
 
 
+HttpResultTuple = namedtuple(
+    'HttpResultTuple', 'success error_message result')
+
+
 class HttpClient:
 
     def __init__(self, http_url, http_headers=None):
@@ -42,16 +47,20 @@ class HttpClient:
         url = urljoin(self.http_url, 'v1/blocks?limit=1&offset=0')
         req = requests.get(url, headers=self.http_headers)
         if not req.ok:
-            logger.error("invalid status code")
-            return None
-
+            return HttpResultTuple(
+                success=False,
+                error_message='invalid status code', result=req.content)
         try:
             response = req.json()
         except Exception as e:
             logger.error(e)
-            return None
-        return {"blocks": response["data"],
-                "total_count": response["total_count"]}
+            return HttpResultTuple(
+                success=False, error_message=str(e), result=req.content)
+
+        result = {"blocks": response["data"],
+                  "total_count": response["total_count"]}
+        return HttpResultTuple(
+            success=True, error_message=None, result=result)
 
     def broadcast(self, tx_id, version, fee, data, sign, tx_type,
                   sender_address, recipient_address):
@@ -70,13 +79,17 @@ class HttpClient:
         req = requests.post(url, data=payload, headers=self.http_headers)
         if not req.ok:
             logger.error("invalid status code")
-            return None
+            return HttpResultTuple(
+                success=False, error_message='invalid status code',
+                result=req.content)
         try:
             response = req.json()
         except Exception as e:
             logger.error(e)
-            return None
-        return response
+            return HttpResultTuple(
+                success=False, error_message=str(e), result=req.content)
+        return HttpResultTuple(
+            success=True, error_message=None, result=response)
 
     def tx_search(self, *args, **kwargs):
         pre_payload = {
@@ -99,19 +112,27 @@ class HttpClient:
         req = requests.post(url, json=payload, headers=self.http_headers)
         if req.status_code == 400:
             logger.error('invalid arguments')
-            return None
+            return HttpResultTuple(
+                success=False, error_message='invalid arguments',
+                result=req.content)
 
         if not req.ok:
             logger.error("invalid status code")
-            return None
+            return HttpResultTuple(
+                success=False, error_message='invalid status code',
+                result=req.content)
 
         try:
             response = req.json()
         except Exception as e:
             logger.error(e)
-            return None
-        return {"txs": response["data"],
-                "total_count": len(response["data"])}
+            return HttpResultTuple(
+                success=False, error_message=str(e), result=req.content)
+
+        result = {"txs": response["data"],
+                  "total_count": len(response["data"])}
+        return HttpResultTuple(
+            success=True, error_message=None, result=result)
 
 
 class WsClient(object):
