@@ -9,12 +9,12 @@ with open("requirements.txt") as f:
 
 setup(
     name="tcabci_read_client",
-    version="v0.1.3",
+    version="v0.1.4",
     author="transferchain",
     description="transferchain abci read client",
     long_description=page_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ayhanozemre/tcabci-read-python-client",
+    url="https://github.com/transferchain/tcabci-read-python-client",
     packages=find_packages(),
     install_requires=requirements,
     python_requires='>=3.8',
