@@ -14,7 +14,7 @@ setup(
     description="transferchain abci read client",
     long_description=page_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ayhanozemre/tcabci-read-python-client",
+    url="https://github.com/transferchain/tcabci-read-python-client",
     packages=find_packages(),
     install_requires=requirements,
     python_requires='>=3.8',
