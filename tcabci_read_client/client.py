@@ -8,7 +8,7 @@ import requests
 import websocket
 
 
-VERSION = 'v0.1.5'
+VERSION = 'v0.1.6'
 
 logger = logging.getLogger('tcabci-read-client')
 logger.setLevel(logging.DEBUG)
@@ -93,18 +93,18 @@ class HttpClient:
 
     def tx_search(self, *args, **kwargs):
         pre_payload = {
-            "recipient_addrs": kwargs.get('recipientAddrs'),
-            "sender_addrs": kwargs.get('senderAddrs'),
+            "recipient_addrs": kwargs.get('recipient_addrs'),
+            "sender_addrs": kwargs.get('sender_addrs'),
             "hashes": kwargs.get('hashes'),
             "typ": kwargs.get('typ'),
             "limit": kwargs.get('limit'),
             "offset": kwargs.get('offset'),
-            "order_field": kwargs.get('orderField'),
-            "order_by": kwargs.get('orderBy')
+            "order_field": kwargs.get('order_field'),
+            "order_by": kwargs.get('order_by')
         }
-        height_operator = kwargs.get('heightOperator')
+        height_operator = kwargs.get('height_operator')
         height = kwargs.get('height')
-        if height_operator and height:
+        if height_operator and height is not None:
             pre_payload['height'] = f"{height_operator} {height}"
 
         payload = {k: v for k, v in pre_payload.items() if v is not None}
@@ -130,7 +130,7 @@ class HttpClient:
                 success=False, error_message=str(e), result=req.content)
 
         result = {"txs": response["data"],
-                  "total_count": len(response["data"])}
+                  "total_count": response["total_count"]}
         return HttpResultTuple(
             success=True, error_message=None, result=result)
 
