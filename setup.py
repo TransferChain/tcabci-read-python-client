@@ -1,16 +1,15 @@
-import os
 from setuptools import setup, find_packages
 
 with open("README.md", "r") as f:
     page_description = f.read()
 
-with open(os.path.join(os.getcwd(), 'requirements.txt')) as f:
+with open("requirements.txt", "r") as f:
     requirements = f.read().splitlines()
 
 
 setup(
     name="tcabci_read_client",
-    version="v0.1.7",
+    version="v0.1.8",
     author="transferchain",
     description="transferchain abci read client",
     long_description=page_description,
