@@ -11,7 +11,7 @@ requirements = [
 
 setup(
     name="tcabci_read_client",
-    version="v0.1.8",
+    version="v0.1.9",
     author="transferchain",
     description="transferchain abci read client",
     long_description=page_description,
