@@ -3,9 +3,11 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as f:
     page_description = f.read()
 
-with open("requirements.txt", "r") as f:
-    requirements = f.read().splitlines()
-
+requirements = [
+    'requests==2.31.0',
+    'websockets==11.0.3',
+    'websocket-client==1.6.3'
+]
 
 setup(
     name="tcabci_read_client",
