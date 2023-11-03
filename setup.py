@@ -11,9 +11,10 @@ requirements = [
 
 setup(
     name="tcabci_read_client",
-    version="v0.1.9",
-    author="transferchain",
-    description="transferchain abci read client",
+    version="0.1.10",
+    author="TransferChain",
+    author_email="info@transferchain.io",
+    description="TransferChain ABCI Read Client",
     long_description=page_description,
     long_description_content_type="text/markdown",
     url="https://github.com/transferchain/tcabci-read-python-client",
