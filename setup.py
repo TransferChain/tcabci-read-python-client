@@ -10,7 +10,7 @@ with open(os.path.join(os.getcwd(), 'requirements.txt')) as f:
 
 setup(
     name="tcabci_read_client",
-    version="v0.1.6",
+    version="v0.1.7",
     author="transferchain",
     description="transferchain abci read client",
     long_description=page_description,
