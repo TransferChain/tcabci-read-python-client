@@ -8,7 +8,7 @@ import requests
 import websocket
 
 
-VERSION = 'v0.1.8'
+VERSION = 'v0.1.9'
 
 logger = logging.getLogger('tcabci-read-client')
 logger.setLevel(logging.DEBUG)
